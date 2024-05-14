@@ -1,6 +1,6 @@
-// Замени на свой, чтобы получить независимый от других набор данных.
-// "боевая" версия инстапро лежит в ключе prod
-const personalKey = "prod";
+import { getUserFromLocalStorage } from "./helpers.js";
+
+const personalKey = "katia-vasileva";
 const baseHost = "https://wedev-api.sky.pro";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 
@@ -68,4 +68,24 @@ export function uploadImage({ file }) {
   }).then((response) => {
     return response.json();
   });
+}
+
+export function addPost({ description, imageUrl }) {
+  let user = getUserFromLocalStorage();
+  
+  return fetch(postsHost, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    body: JSON.stringify({
+      description: description,
+      imageUrl: imageUrl
+    })
+  }).then((response) => {
+    if (response.status === 400) {
+      throw new Error("Bad request");
+    }
+    return response.json();
+  })
 }
