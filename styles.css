@@ -196,3 +196,7 @@
   width: 100%;
   text-align: center;
 }
+
+.add-post-sign-none {
+  display: none;
+}

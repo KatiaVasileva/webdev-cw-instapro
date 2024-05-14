@@ -1,4 +1,4 @@
-import { goToPage, logout, user } from "../index.js";
+import { goToPage, logout, user, page } from "../index.js";
 import { ADD_POSTS_PAGE, AUTH_PAGE, POSTS_PAGE } from "../routes.js";
 
 export function renderHeaderComponent({ element }) {
@@ -8,7 +8,7 @@ export function renderHeaderComponent({ element }) {
       <button class="header-button add-or-login-button">
       ${
         user
-          ? `<div title="Добавить пост" class="add-post-sign"></div>`
+          ? `<div title="Добавить пост" class="${page === ADD_POSTS_PAGE ? "add-post-sign-none" : "add-post-sign"}"></div>`
           : "Войти"
       }
       </button>
