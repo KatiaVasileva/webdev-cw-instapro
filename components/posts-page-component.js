@@ -1,6 +1,6 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage } from "../index.js";
+import { posts, goToPage, page } from "../index.js";
 
 export function renderPostsPageComponent({ appEl }) {
 
@@ -41,6 +41,7 @@ export function renderPostsPageComponent({ appEl }) {
   const appHtml = `
     <div class="page-container">
       <div class="header-container"></div>
+      <h3 class="${page === USER_POSTS_PAGE ? "form-title" : "form-title-none"}">Посты пользователя ${posts[0].user.name}</h3>
       <ul class="posts">${postHtml}</ul>
     </div>`;
 

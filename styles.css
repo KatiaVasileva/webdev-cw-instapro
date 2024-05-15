@@ -197,6 +197,7 @@
   text-align: center;
 }
 
-.add-post-sign-none {
+.add-post-sign-none,
+.form-title-none {
   display: none;
 }
