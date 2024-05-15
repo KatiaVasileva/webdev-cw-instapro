@@ -1,5 +1,6 @@
 import { goToPage, logout, user, page } from "../index.js";
 import { ADD_POSTS_PAGE, AUTH_PAGE, POSTS_PAGE, USER_POSTS_PAGE } from "../routes.js";
+import { sanitize } from "../helpers.js";
 
 export function renderHeaderComponent({ element }) {
   element.innerHTML = `
@@ -15,7 +16,7 @@ export function renderHeaderComponent({ element }) {
       </button>
       ${
         user
-          ? `<button title="${user.name}" class="header-button logout-button">Выйти</button>`
+          ? `<button title="${sanitize(user.name)}" class="header-button logout-button">Выйти</button>`
           : ""
       }  
   </div>

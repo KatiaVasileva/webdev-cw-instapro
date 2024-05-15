@@ -14,6 +14,7 @@ import {
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
   saveUserToLocalStorage,
+  sanitize
 } from "./helpers.js";
 
 export let user = getUserFromLocalStorage();
@@ -67,7 +68,7 @@ export const goToPage = (newPage, data) => {
     }
 
     if (newPage === USER_POSTS_PAGE) {
-      
+
       return getUserPosts({
         token: getToken(),
         id: data.userId

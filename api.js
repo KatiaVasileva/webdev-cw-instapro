@@ -1,4 +1,4 @@
-import { getUserFromLocalStorage } from "./helpers.js";
+import { getUserFromLocalStorage, sanitize } from "./helpers.js";
 
 const personalKey = "katia-vasileva";
 const baseHost = "https://wedev-api.sky.pro";
@@ -79,7 +79,7 @@ export function addPost({ description, imageUrl }) {
       Authorization: `Bearer ${user.token}`
     },
     body: JSON.stringify({
-      description: description,
+      description: sanitize(description),
       imageUrl: imageUrl
     })
   }).then((response) => {

@@ -1,3 +1,4 @@
+import { sanitize } from "../helpers.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { renderUploadImageComponent } from "./upload-image-component.js";
 
@@ -39,7 +40,7 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
     document.getElementById("add-button").addEventListener("click", () => {
       const description = document.getElementById("description-input").value;
       onAddPostClick({
-        description: description,
+        description: sanitize(description),
         imageUrl: imageUrl,
       });
       if (!description || description.trim() === "") {

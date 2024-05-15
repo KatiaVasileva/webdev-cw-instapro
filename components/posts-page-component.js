@@ -1,6 +1,7 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage, page } from "../index.js";
+import { sanitize } from "../helpers.js";
 
 export function renderPostsPageComponent({ appEl }) {
 
@@ -14,7 +15,7 @@ export function renderPostsPageComponent({ appEl }) {
         <li class="post">
           <div class="${page === USER_POSTS_PAGE ? "post-header-none" : "post-header"}" data-user-id="${post.user.id}">
             <img src="${post.user.imageUrl}" class="post-header__user-image">
-            <p class="post-header__user-name">${post.user.name}</p>
+            <p class="post-header__user-name">${sanitize(post.user.name)}</p>
           </div>
           <div class="post-image-container">
             <img class="post-image" src="${post.imageUrl}">
@@ -28,8 +29,8 @@ export function renderPostsPageComponent({ appEl }) {
             </p>
           </div>
           <p class="post-text">
-            <span class="user-name">${post.user.name}</span>
-            ${post.description}
+            <span class="user-name">${sanitize(post.user.name)}</span>
+            ${sanitize(post.description)}
           </p>
           <p class="post-date">
             ${post.createdAt}
@@ -44,7 +45,7 @@ export function renderPostsPageComponent({ appEl }) {
       <h3 class="${page === USER_POSTS_PAGE ? "form-title" : "form-title-none"}">
         <div class="post-header" data-user-id="${posts[0].user.id}">
             <img src="${posts[0].user.imageUrl}" class="post-header__user-image">
-            <p class="post-header__user-name">${posts[0].user.name}</p>
+            <p class="post-header__user-name">${sanitize(posts[0].user.name)}</p>
         </div>
       </h3>
       <ul class="posts">${postHtml}</ul>
