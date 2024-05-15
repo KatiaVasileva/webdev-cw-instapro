@@ -8,10 +8,11 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
     const appHtml = `
     <div class="page-container">
       <div class="header-container"></div>
-      <h3 class="form-title">Добавление поста</h3>
+      <h3 class="form-title">Добавить пост</h3>
       <div class="form-inputs">
-        <input type="text" id="description-input" class="input" placeholder="Описание"/>
         <div class="upload-image-container"></div>
+        <label for="description-input">Опишите фотографию:</label>
+        <textarea type="textarea" id="description-input" class="textarea" rows="4"></textarea>
         <div class="form-error"></div>
         <button class="button" id="add-button">Добавить</button>
       </div>

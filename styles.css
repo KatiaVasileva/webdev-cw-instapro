@@ -198,6 +198,7 @@
 }
 
 .add-post-sign-none,
-.form-title-none {
+.form-title-none,
+.post-header-none {
   display: none;
 }

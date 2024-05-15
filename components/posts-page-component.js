@@ -12,7 +12,7 @@ export function renderPostsPageComponent({ appEl }) {
     .map((post) => {
       return `
         <li class="post">
-          <div class="post-header" data-user-id="${post.user.id}">
+          <div class="${page === USER_POSTS_PAGE ? "post-header-none" : "post-header"}" data-user-id="${post.user.id}">
             <img src="${post.user.imageUrl}" class="post-header__user-image">
             <p class="post-header__user-name">${post.user.name}</p>
           </div>
@@ -41,7 +41,12 @@ export function renderPostsPageComponent({ appEl }) {
   const appHtml = `
     <div class="page-container">
       <div class="header-container"></div>
-      <h3 class="${page === USER_POSTS_PAGE ? "form-title" : "form-title-none"}">Посты пользователя ${posts[0].user.name}</h3>
+      <h3 class="${page === USER_POSTS_PAGE ? "form-title" : "form-title-none"}">
+        <div class="post-header" data-user-id="${posts[0].user.id}">
+            <img src="${posts[0].user.imageUrl}" class="post-header__user-image">
+            <p class="post-header__user-name">${posts[0].user.name}</p>
+        </div>
+      </h3>
       <ul class="posts">${postHtml}</ul>
     </div>`;
 

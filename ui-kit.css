@@ -114,8 +114,9 @@ p {
 .textarea {
   padding: 15px;
   resize: none;
-  width: 100%;
+  width: 100wv;
   height: 100px;
+  font: inherit;
 }
 
 strong {
