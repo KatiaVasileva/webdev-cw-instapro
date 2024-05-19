@@ -1,9 +1,10 @@
-import { USER_POSTS_PAGE } from "../routes.js";
+import { POSTS_PAGE, USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage, page } from "../index.js";
-import { sanitize } from "../helpers.js";
+import { getUserFromLocalStorage, sanitize } from "../helpers.js";
+import { likePost, unlikePost } from "../api.js";
 
-export function renderPostsPageComponent({ appEl }) {
+export function renderPostsPageComponent({ appEl, onLikePostClick }) {
 
   /**
    * TODO:  отформатировать дату создания поста в виде "19 минут назад"
@@ -21,8 +22,8 @@ export function renderPostsPageComponent({ appEl }) {
             <img class="post-image" src="${post.imageUrl}">
           </div>
           <div class="post-likes">
-            <button data-post-id="${post.id}" class="like-button">
-              <img src="./assets/images/like-active.svg">
+            <button data-post-id="${post.id}" data-liked="${post.isLiked}" class="like-button">
+              <img id="like-image" src="${post.isLiked ? "./assets/images/like-active.svg" : "./assets/images/like-not-active.svg"}"}>
             </button>
             <p class="post-likes-text">
               Нравится: <strong>${post.likes.length}</strong>
@@ -63,5 +64,16 @@ export function renderPostsPageComponent({ appEl }) {
         userId: userEl.dataset.userId,
       });
     });
+  }
+
+  const likeButtonElements = document.querySelectorAll(".like-button");
+
+  for (let likeButtonElement of likeButtonElements) {
+    likeButtonElement.addEventListener("click", () => {
+      onLikePostClick({
+        id: likeButtonElement.dataset.postId,
+        action: likeButtonElement.dataset.liked.toString() === "true" ? unlikePost : likePost
+      });      
+    })
   }
 }

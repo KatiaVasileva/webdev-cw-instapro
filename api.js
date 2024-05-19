@@ -19,12 +19,10 @@ export function getPosts({ token }) {
       return response.json();
     })
     .then((data) => {
-      console.log(data.posts);
       return data.posts;
     });
 }
 
-// https://github.com/GlebkaF/webdev-hw-api/blob/main/pages/api/user/README.md#%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%D1%81%D1%8F
 export function registerUser({ login, password, name, imageUrl }) {
   return fetch(baseHost + "/api/user", {
     method: "POST",
@@ -72,7 +70,7 @@ export function uploadImage({ file }) {
 
 export function addPost({ description, imageUrl }) {
   let user = getUserFromLocalStorage();
-  
+
   return fetch(postsHost, {
     method: "POST",
     headers: {
@@ -90,7 +88,7 @@ export function addPost({ description, imageUrl }) {
   })
 }
 
-export function getUserPosts({token, id}) {
+export function getUserPosts({ token, id }) {
   return fetch(postsHost + "/user-posts/" + id, {
     method: "GET",
     headers: {
@@ -105,7 +103,41 @@ export function getUserPosts({token, id}) {
       return response.json();
     })
     .then((data) => {
-      console.log(data.posts);
       return data.posts;
     });
 }
+
+export function likePost({ token, id }) {
+  let user = getUserFromLocalStorage();
+
+  return fetch(postsHost + "/" + id + "/like", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${!user ? token : user.token}`
+    }
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        throw new Error("Unauthorized");
+      }
+      return response.json();
+    });
+}
+
+export function unlikePost({ token, id }) {
+  let user = getUserFromLocalStorage();
+
+  return fetch(postsHost + "/" + id + "/dislike", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${!user ? token : user.token}`
+    }
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        throw new Error("Unauthorized");
+      }
+      return response.json();
+    });
+}
+

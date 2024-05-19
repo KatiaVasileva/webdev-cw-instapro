@@ -1,4 +1,4 @@
-import { getPosts, addPost, getUserPosts } from "./api.js";
+import { getPosts, addPost, getUserPosts, likePost } from "./api.js";
 import { renderAddPostPageComponent } from "./components/add-post-page-component.js";
 import { renderAuthPageComponent } from "./components/auth-page-component.js";
 import {
@@ -20,6 +20,7 @@ import {
 export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
+
 
 const getToken = () => {
   const token = user ? `Bearer ${user.token}` : undefined;
@@ -68,6 +69,7 @@ export const goToPage = (newPage, data) => {
     }
 
     if (newPage === USER_POSTS_PAGE) {
+      console.log(data.userId);
 
       return getUserPosts({
         token: getToken(),
@@ -128,9 +130,29 @@ const renderApp = () => {
   }
 
   if (page === POSTS_PAGE || page === USER_POSTS_PAGE) {
+
     return renderPostsPageComponent({
       appEl,
-    });
+
+      onLikePostClick({ id, action }) {
+        action({
+          token: getToken(),
+          id
+        })
+          .then(() => {
+            return getPosts({ token: getToken() });
+          })
+          .then((newPosts) => {
+            posts = newPosts;
+            renderApp();
+          })
+          .catch((error) => {
+            if (error.message === "Unauthorized") {
+              alert("Вы не авторизованы");
+            }
+          })
+      }
+    })
   }
 };
 
