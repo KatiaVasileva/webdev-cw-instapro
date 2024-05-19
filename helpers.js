@@ -19,3 +19,15 @@ export function sanitize(text) {
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
 }
+
+export function getLikeString (likeLength, nameString) {
+  let likeString;
+  if (likeLength === 0) {
+    likeString = 0;
+  } else if (likeLength === 1) {
+    likeString = nameString;
+  } else {
+    likeString = nameString + " и еще " + (likeLength - 1);
+  }
+  return likeString;
+}

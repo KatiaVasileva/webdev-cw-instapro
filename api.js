@@ -121,7 +121,7 @@ export function likePost({ token, id }) {
         throw new Error("Unauthorized");
       }
       return response.json();
-    });
+    })
 }
 
 export function unlikePost({ token, id }) {

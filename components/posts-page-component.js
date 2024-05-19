@@ -1,7 +1,7 @@
-import { POSTS_PAGE, USER_POSTS_PAGE } from "../routes.js";
+import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage, page } from "../index.js";
-import { getUserFromLocalStorage, sanitize } from "../helpers.js";
+import { getLikeString, sanitize } from "../helpers.js";
 import { likePost, unlikePost } from "../api.js";
 
 export function renderPostsPageComponent({ appEl, onLikePostClick }) {
@@ -12,6 +12,10 @@ export function renderPostsPageComponent({ appEl, onLikePostClick }) {
    */
   const postHtml = posts
     .map((post) => {
+
+      let nameString = post.likes[0]?.name ?? 0;
+      let likes = getLikeString(post.likes.length, nameString);
+
       return `
         <li class="post">
           <div class="${page === USER_POSTS_PAGE ? "post-header-none" : "post-header"}" data-user-id="${post.user.id}">
@@ -26,7 +30,7 @@ export function renderPostsPageComponent({ appEl, onLikePostClick }) {
               <img id="like-image" src="${post.isLiked ? "./assets/images/like-active.svg" : "./assets/images/like-not-active.svg"}"}>
             </button>
             <p class="post-likes-text">
-              Нравится: <strong>${post.likes.length}</strong>
+              Нравится: <strong>${likes}</strong>
             </p>
           </div>
           <p class="post-text">
