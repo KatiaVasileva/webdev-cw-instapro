@@ -1,4 +1,4 @@
-import { getPosts, addPost, getUserPosts, likePost } from "./api.js";
+import { getPosts, addPost, getUserPosts } from "./api.js";
 import { renderAddPostPageComponent } from "./components/add-post-page-component.js";
 import { renderAuthPageComponent } from "./components/auth-page-component.js";
 import {
@@ -134,13 +134,17 @@ const renderApp = () => {
     return renderPostsPageComponent({
       appEl,
 
-      onLikePostClick({ id, action }) {
+      onLikePostClick({ id, action, userId }) {
         action({
           token: getToken(),
           id
         })
           .then(() => {
-            return getPosts({ token: getToken() });
+            if (page === POSTS_PAGE) {
+              return getPosts({ token: getToken() });
+            } else {
+              return getUserPosts({ token: getToken(), id: userId});
+            }
           })
           .then((newPosts) => {
             posts = newPosts;

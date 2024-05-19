@@ -67,12 +67,15 @@ export function renderPostsPageComponent({ appEl, onLikePostClick }) {
   }
 
   const likeButtonElements = document.querySelectorAll(".like-button");
+  const postHeaderElement = document.querySelector(".post-header");
 
   for (let likeButtonElement of likeButtonElements) {
+    
     likeButtonElement.addEventListener("click", () => {
       onLikePostClick({
         id: likeButtonElement.dataset.postId,
-        action: likeButtonElement.dataset.liked.toString() === "true" ? unlikePost : likePost
+        action: likeButtonElement.dataset.liked.toString() === "true" ? unlikePost : likePost,
+        userId: postHeaderElement.dataset.userId
       });      
     })
   }
