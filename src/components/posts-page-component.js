@@ -3,6 +3,8 @@ import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage, page } from "../render-pages.js";
 import { getLikeString, getUserFromLocalStorage, sanitize } from "../helpers.js";
 import { likePost, unlikePost } from "../api.js";
+import { formatDistanceToNow } from "date-fns";
+import { ru } from "date-fns/locale";
 
 export function renderPostsPageComponent({ appEl, onLikePostClick, onDeleteButtonClick }) {
 
@@ -43,7 +45,7 @@ export function renderPostsPageComponent({ appEl, onLikePostClick, onDeleteButto
             ${sanitize(post.description)}
           </p>
           <p class="post-date">
-            ${post.createdAt}
+            ${formatDistanceToNow(post.createdAt, {locale: ru})} назад
           </p>
         </li>`;
     })
