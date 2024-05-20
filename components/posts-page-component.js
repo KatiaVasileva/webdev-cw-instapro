@@ -1,10 +1,10 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage, page } from "../index.js";
-import { getLikeString, sanitize } from "../helpers.js";
+import { getLikeString, getUserFromLocalStorage, sanitize } from "../helpers.js";
 import { likePost, unlikePost } from "../api.js";
 
-export function renderPostsPageComponent({ appEl, onLikePostClick }) {
+export function renderPostsPageComponent({ appEl, onLikePostClick, onDeleteButtonClick}) {
 
   /**
    * TODO:  отформатировать дату создания поста в виде "19 минут назад"
@@ -25,13 +25,16 @@ export function renderPostsPageComponent({ appEl, onLikePostClick }) {
           <div class="post-image-container">
             <img class="post-image" src="${post.imageUrl}">
           </div>
-          <div class="post-likes">
-            <button data-post-id="${post.id}" data-liked="${post.isLiked}" class="like-button">
-              <img id="like-image" src="${post.isLiked ? "./assets/images/like-active.svg" : "./assets/images/like-not-active.svg"}"}>
-            </button>
-            <p class="post-likes-text">
-              Нравится: <strong>${likes}</strong>
-            </p>
+          <div class="bottom-box">
+            <div class="post-likes">
+              <button data-post-id="${post.id}" data-liked="${post.isLiked}" class="like-button">
+                <img id="like-image" src="${post.isLiked ? "./assets/images/like-active.svg" : "./assets/images/like-not-active.svg"}"}>
+              </button>
+              <p class="post-likes-text">
+                Нравится: <strong>${likes}</strong>
+              </p>
+            </div>
+            <img title="Удалить пост" data-post-id="${post.id}" class="${post.user.id === getUserFromLocalStorage()._id ? "cross" : "cross-none"}" src="./assets/images/cross_red.svg">
           </div>
           <p class="post-text">
             <span class="user-name">${sanitize(post.user.name)}</span>
@@ -81,6 +84,18 @@ export function renderPostsPageComponent({ appEl, onLikePostClick }) {
         action: likeButtonElement.dataset.liked.toString() === "true" ? unlikePost : likePost,
         userId: postHeaderElement.dataset.userId
       });      
+    })
+  }
+
+  const deleteButtonElements = document.querySelectorAll(".cross");
+
+  for (const deleteButtonElement of deleteButtonElements) {
+
+    deleteButtonElement.addEventListener("click", () => {
+      onDeleteButtonClick({
+        id: deleteButtonElement.dataset.postId,
+        userId: postHeaderElement.dataset.userId
+      });
     })
   }
 }

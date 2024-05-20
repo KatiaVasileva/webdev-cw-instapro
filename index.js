@@ -1,4 +1,4 @@
-import { getPosts, addPost, getUserPosts } from "./api.js";
+import { getPosts, addPost, getUserPosts, deletePost } from "./api.js";
 import { renderAddPostPageComponent } from "./components/add-post-page-component.js";
 import { renderAuthPageComponent } from "./components/auth-page-component.js";
 import {
@@ -143,7 +143,7 @@ const renderApp = () => {
             if (page === POSTS_PAGE) {
               return getPosts({ token: getToken() });
             } else {
-              return getUserPosts({ token: getToken(), id: userId});
+              return getUserPosts({ token: getToken(), id: userId });
             }
           })
           .then((newPosts) => {
@@ -155,6 +155,29 @@ const renderApp = () => {
               alert("Вы не авторизованы");
             }
           })
+      },
+
+      onDeleteButtonClick({ id, userId }) {
+        deletePost({
+          token: getToken(),
+          id
+        })
+        .then(() => {
+          if (page === POSTS_PAGE) {
+            return getPosts({ token: getToken() });
+          } else {
+            return getUserPosts({ token: getToken(), id: userId });
+          }
+        })
+        .then((newPosts) => {
+          posts = newPosts;
+          renderApp();
+        })
+        .catch((error) => {
+          if (error.message === "Unauthorized") {
+            alert("Вы не авторизованы");
+          }
+        })
       }
     })
   }

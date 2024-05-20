@@ -199,6 +199,20 @@
 
 .add-post-sign-none,
 .form-title-none,
-.post-header-none {
+.post-header-none,
+.cross-none {
   display: none;
+}
+
+.bottom-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cross {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
 }

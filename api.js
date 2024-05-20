@@ -141,3 +141,20 @@ export function unlikePost({ token, id }) {
     });
 }
 
+export function deletePost({ token, id }) {
+  let user = getUserFromLocalStorage();
+
+  return fetch(postsHost + "/" + id, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${!user ? token : user.token}`
+    }
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        throw new Error("Unauthorized");
+      }
+      return response.json();
+    });
+}
+
