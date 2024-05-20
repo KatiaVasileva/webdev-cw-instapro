@@ -7,18 +7,16 @@ export function renderHeaderComponent({ element }) {
   <div class="page-header">
       <h1 class="logo">instapro</h1>
       <button class="header-button add-or-login-button">
-      ${
-        user
-          ? `<div title="Добавить пост" class="${page === ADD_POSTS_PAGE || page === USER_POSTS_PAGE ? "add-post-sign-none" : "add-post-sign"}">
+      ${user
+      ? `<div title="Добавить пост" class="${page === ADD_POSTS_PAGE || page === USER_POSTS_PAGE ? "add-post-sign-none" : "add-post-sign"}">
           </div>`
-          : "Войти"
-      }
+      : "Войти"
+    }
       </button>
-      ${
-        user
-          ? `<button title="${sanitize(user.name)}" class="header-button logout-button">Выйти</button>`
-          : ""
-      }  
+      ${user
+      ? `<button title="${sanitize(user.name)}" class="header-button logout-button">Выйти</button>`
+      : ""
+    }  
   </div>
   
 `;

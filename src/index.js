@@ -162,22 +162,27 @@ const renderApp = () => {
           token: getToken(),
           id
         })
-        .then(() => {
-          if (page === POSTS_PAGE) {
-            return getPosts({ token: getToken() });
-          } else {
-            return getUserPosts({ token: getToken(), id: userId });
-          }
-        })
-        .then((newPosts) => {
-          posts = newPosts;
-          renderApp();
-        })
-        .catch((error) => {
-          if (error.message === "Unauthorized") {
-            alert("Вы не авторизованы");
-          }
-        })
+          .then(() => {
+            if (getUserFromLocalStorage() === null) {
+              
+            }
+          })
+          .then(() => {
+            if (page === POSTS_PAGE) {
+              return getPosts({ token: getToken() });
+            } else {
+              return getUserPosts({ token: getToken(), id: userId });
+            }
+          })
+          .then((newPosts) => {
+            posts = newPosts;
+            renderApp();
+          })
+          .catch((error) => {
+            if (error.message === "Unauthorized") {
+              alert("Вы не авторизованы");
+            }
+          })
       }
     })
   }

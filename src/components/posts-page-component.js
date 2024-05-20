@@ -4,7 +4,7 @@ import { posts, goToPage, page } from "../index.js";
 import { getLikeString, getUserFromLocalStorage, sanitize } from "../helpers.js";
 import { likePost, unlikePost } from "../api.js";
 
-export function renderPostsPageComponent({ appEl, onLikePostClick, onDeleteButtonClick}) {
+export function renderPostsPageComponent({ appEl, onLikePostClick, onDeleteButtonClick }) {
 
   /**
    * TODO:  отформатировать дату создания поста в виде "19 минут назад"
@@ -15,6 +15,8 @@ export function renderPostsPageComponent({ appEl, onLikePostClick, onDeleteButto
 
       let nameString = post.likes[0]?.name ?? 0;
       let likes = getLikeString(post.likes.length, nameString);
+
+      let crossRemoval = getUserFromLocalStorage() === null || post.user.id !== getUserFromLocalStorage()._id;
 
       return `
         <li class="post">
@@ -34,7 +36,7 @@ export function renderPostsPageComponent({ appEl, onLikePostClick, onDeleteButto
                 Нравится: <strong>${likes}</strong>
               </p>
             </div>
-            <img title="Удалить пост" data-post-id="${post.id}" class="${post.user.id === getUserFromLocalStorage()._id ? "cross" : "cross-none"}" src="./assets/images/cross_red.svg">
+            <img title="Удалить пост" data-post-id="${post.id}" class="${ crossRemoval.toString() === "true" ? "cross-none" : "cross"}" src="./assets/images/cross_red.svg">
           </div>
           <p class="post-text">
             <span class="user-name">${sanitize(post.user.name)}</span>
@@ -77,21 +79,23 @@ export function renderPostsPageComponent({ appEl, onLikePostClick, onDeleteButto
   const postHeaderElement = document.querySelector(".post-header");
 
   for (let likeButtonElement of likeButtonElements) {
-    
+
     likeButtonElement.addEventListener("click", () => {
       onLikePostClick({
         id: likeButtonElement.dataset.postId,
         action: likeButtonElement.dataset.liked.toString() === "true" ? unlikePost : likePost,
         userId: postHeaderElement.dataset.userId
-      });      
+      });
     })
   }
 
   const deleteButtonElements = document.querySelectorAll(".cross");
 
+
   for (const deleteButtonElement of deleteButtonElements) {
 
     deleteButtonElement.addEventListener("click", () => {
+
       onDeleteButtonClick({
         id: deleteButtonElement.dataset.postId,
         userId: postHeaderElement.dataset.userId
