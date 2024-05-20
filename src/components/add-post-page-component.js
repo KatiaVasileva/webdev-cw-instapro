@@ -3,10 +3,10 @@ import { renderHeaderComponent } from "./header-component.js";
 import { renderUploadImageComponent } from "./upload-image-component.js";
 
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
-  let imageUrl = "";
+    let imageUrl = "";
 
-  const render = () => {
-    const appHtml = `
+    const render = () => {
+        const appHtml = `
     <div class="page-container">
       <div class="header-container"></div>
       <h3 class="form-title">Добавить пост</h3>
@@ -20,39 +20,42 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
     </div>
   `;
 
-    appEl.innerHTML = appHtml;
+        appEl.innerHTML = appHtml;
 
-    renderHeaderComponent({
-      element: document.querySelector(".header-container"),
-    });
+        renderHeaderComponent({
+            element: document.querySelector(".header-container"),
+        });
 
-    const uploadImageContainer = appEl.querySelector(".upload-image-container");
+        const uploadImageContainer = appEl.querySelector(
+            ".upload-image-container",
+        );
 
-    if (uploadImageContainer) {
-      renderUploadImageComponent({
-        element: appEl.querySelector(".upload-image-container"),
-        onImageUrlChange(newImageUrl) {
-          imageUrl = newImageUrl;
-        },
-      });
-    }
+        if (uploadImageContainer) {
+            renderUploadImageComponent({
+                element: appEl.querySelector(".upload-image-container"),
+                onImageUrlChange(newImageUrl) {
+                    imageUrl = newImageUrl;
+                },
+            });
+        }
 
-    document.getElementById("add-button").addEventListener("click", () => {
-      const description = document.getElementById("description-input").value;
-      onAddPostClick({
-        description: sanitize(description),
-        imageUrl: imageUrl,
-      });
-      if (!description || description.trim() === "") {
-            alert("Введите описание");
-            return;
-          }
-          if (!imageUrl) {
-            alert("Не выбрана фотография");
-            return;
-          }
-    });
-  };
+        document.getElementById("add-button").addEventListener("click", () => {
+            const description =
+                document.getElementById("description-input").value;
+            onAddPostClick({
+                description: sanitize(description),
+                imageUrl: imageUrl,
+            });
+            if (!description || description.trim() === "") {
+                alert("Введите описание");
+                return;
+            }
+            if (!imageUrl) {
+                alert("Не выбрана фотография");
+                return;
+            }
+        });
+    };
 
-  render();
+    render();
 }
