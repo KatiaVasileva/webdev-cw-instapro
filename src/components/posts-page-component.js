@@ -1,6 +1,6 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage, page } from "../index.js";
+import { posts, goToPage, page } from "../render-pages.js";
 import { getLikeString, getUserFromLocalStorage, sanitize } from "../helpers.js";
 import { likePost, unlikePost } from "../api.js";
 

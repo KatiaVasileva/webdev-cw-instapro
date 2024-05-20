@@ -1,4 +1,4 @@
-import { goToPage, logout, user, page } from "../index.js";
+import { goToPage, logout, user, page } from "../render-pages.js";
 import { ADD_POSTS_PAGE, AUTH_PAGE, POSTS_PAGE, USER_POSTS_PAGE } from "../routes.js";
 import { sanitize } from "../helpers.js";
 
