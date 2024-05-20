@@ -1,5 +1,5 @@
 module.exports = {
-    entry: "./docs/index.js",
+    entry: "./index.js",
     output: {
         filename: "index.js"
     }

@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --mode development --watch",
-    "format": "prettier --write ./docs/",
-    "lint:js": "eslint ./docs/**/*.js",
-    "lint:css": "stylelint ./docs/**.css",
+    "format": "prettier --write",
+    "lint:js": "eslint ./**.js",
+    "lint:css": "stylelint ./**.css",
     "prepare": "husky",
     "lint": "npm run lint:js && npm run lint:css"
   },
