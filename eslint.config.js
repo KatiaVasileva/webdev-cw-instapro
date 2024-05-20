@@ -25,6 +25,9 @@ export default [
         },
     },
     {
-        ignores: "./dist/index.js"
+        ignores: [
+            "node_modules/",
+            "dist/"
+        ]
     }
 ];
