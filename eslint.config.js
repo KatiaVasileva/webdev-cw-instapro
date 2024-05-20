@@ -24,4 +24,7 @@ export default [
             prettier: prettierPlugin,
         },
     },
+    {
+        ignores: "./dist/index.js"
+    }
 ];

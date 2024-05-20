@@ -86,6 +86,7 @@ export function renderPostsPageComponent({
 
     for (let likeButtonElement of likeButtonElements) {
         likeButtonElement.addEventListener("click", () => {
+            likeButtonElement.classList.add("loading-like");
             onLikePostClick({
                 id: likeButtonElement.dataset.postId,
                 action:
@@ -94,7 +95,9 @@ export function renderPostsPageComponent({
                         : likePost,
                 userId: postHeaderElement.dataset.userId,
             });
+            // likeButtonElement.classList.remove("loading-like");
         });
+        
     }
 
     const deleteButtonElements = document.querySelectorAll(".cross");
