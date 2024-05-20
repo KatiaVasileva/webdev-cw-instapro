@@ -67,7 +67,8 @@ export const goToPage = (newPage, data) => {
         }
 
         if (newPage === USER_POSTS_PAGE) {
-            console.log(data.userId);
+            page = LOADING_PAGE;
+            renderApp();
 
             return getUserPosts({
                 token: getToken(),
@@ -99,6 +100,7 @@ const renderApp = () => {
     }
 
     if (page === AUTH_PAGE) {
+        
         return renderAuthPageComponent({
             appEl,
             setUser: (newUser) => {
