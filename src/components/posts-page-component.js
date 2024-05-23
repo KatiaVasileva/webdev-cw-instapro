@@ -95,7 +95,6 @@ export function renderPostsPageComponent({
                         : likePost,
                 userId: postHeaderElement.dataset.userId,
             });
-            // likeButtonElement.classList.remove("loading-like");
         });
         
     }

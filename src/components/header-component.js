@@ -4,8 +4,8 @@ import {
     AUTH_PAGE,
     POSTS_PAGE,
     USER_POSTS_PAGE,
-} from "../../routes.js";
-import { sanitize } from "../../helpers.js";
+} from "../routes.js";
+import { sanitize } from "../helpers.js";
 
 export function renderHeaderComponent({ element }) {
     element.innerHTML = `
