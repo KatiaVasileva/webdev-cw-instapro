@@ -153,6 +153,7 @@ const renderApp = () => {
                     .catch((error) => {
                         if (error.message === "Unauthorized") {
                             alert("Вы не авторизованы");
+                            renderApp();
                         }
                     });
             },
