@@ -61,6 +61,7 @@ export const goToPage = (newPage, data) => {
                     renderApp();
                 })
                 .catch((error) => {
+                    alert("Кажется, у вас сломался интернет, попробуйте позже");
                     console.error(error);
                     goToPage(POSTS_PAGE);
                 });
@@ -73,11 +74,17 @@ export const goToPage = (newPage, data) => {
             return getUserPosts({
                 token: getToken(),
                 id: data.userId,
-            }).then((userPosts) => {
-                page = USER_POSTS_PAGE;
-                posts = userPosts;
-                renderApp();
-            });
+            })
+                .then((userPosts) => {
+                    page = USER_POSTS_PAGE;
+                    posts = userPosts;
+                    renderApp();
+                })
+                .catch((error) => {
+                    alert("Кажется, у вас сломался интернет, попробуйте позже");
+                    console.error(error);
+                    goToPage(USER_POSTS_PAGE);
+                });
         }
 
         page = newPage;
@@ -100,7 +107,6 @@ const renderApp = () => {
     }
 
     if (page === AUTH_PAGE) {
-        
         return renderAuthPageComponent({
             appEl,
             setUser: (newUser) => {
@@ -122,6 +128,9 @@ const renderApp = () => {
                     imageUrl,
                 }).then(() => {
                     goToPage(POSTS_PAGE);
+                })
+                .catch(() => {
+                    alert("Кажется, у вас сломался интернет, попробуйте позже");
                 });
             },
         });
@@ -149,6 +158,13 @@ const renderApp = () => {
                     .then((newPosts) => {
                         posts = newPosts;
                         renderApp();
+                    })
+                    .catch((error) => {
+                        alert(
+                            "Кажется, у вас сломался интернет, попробуйте позже",
+                        );
+                        console.error(error);
+                        renderApp();
                     });
             },
 
@@ -174,6 +190,12 @@ const renderApp = () => {
                     .catch((error) => {
                         if (error.message === "Unauthorized") {
                             alert("Вы не авторизованы");
+                        } else {
+                            alert(
+                                "Кажется, у вас сломался интернет, попробуйте позже",
+                            );
+                            console.error(error);
+                            renderApp();
                         }
                     });
             },
