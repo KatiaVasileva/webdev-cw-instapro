@@ -84,7 +84,7 @@ export const goToPage = (newPage, data) => {
                 .catch((error) => {
                     alert("Кажется, у вас сломался интернет, попробуйте позже");
                     console.error(error);
-                    goToPage(USER_POSTS_PAGE);
+                    goToPage(POSTS_PAGE);
                 });
         }
 
