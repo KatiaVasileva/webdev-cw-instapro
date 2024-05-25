@@ -1,6 +1,5 @@
-import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage } from "../render-pages.js";
+import { posts } from "../render-pages.js";
 import {
     getLikeString,
     getUserFromLocalStorage,
@@ -10,7 +9,7 @@ import { likePost, unlikePost } from "../api.js";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
 
-export function renderPostsPageComponent({
+export function renderUserPostsPageComponent({
     appEl,
     onLikePostClick,
     onDeleteButtonClick,
@@ -28,7 +27,7 @@ export function renderPostsPageComponent({
 
             return `
         <li class="post">
-          <div class="post-header" data-user-id="${post.user.id}">
+          <div class="post-header-none" data-user-id="${post.user.id}">
             <img src="${post.user.imageUrl}" class="post-header-user-image">
             <p class="post-header__user-name">${sanitize(post.user.name)}</p>
           </div>
@@ -60,7 +59,7 @@ export function renderPostsPageComponent({
     const appHtml = `
     <div class="page-container">
       <div class="header-container"></div>
-      <h3 class="form-title-none">
+      <h3 class="form-title">
         <div class="post-header" data-user-id="${posts[0].user.id}">
             <img src="${posts[0].user.imageUrl}" class="post-header-user-image">
             <p class="post-header__user-name">${sanitize(posts[0].user.name)}</p>
@@ -75,15 +74,8 @@ export function renderPostsPageComponent({
         element: document.querySelector(".header-container"),
     });
 
-    for (let userEl of document.querySelectorAll(".post-header")) {
-        userEl.addEventListener("click", () => {
-            goToPage(USER_POSTS_PAGE, {
-                userId: userEl.dataset.userId,
-            });
-        });
-    }
-
     const likeButtonElements = document.querySelectorAll(".like-button");
+    const postHeaderElement = document.querySelector(".post-header");
 
     for (let likeButtonElement of likeButtonElements) {
         likeButtonElement.addEventListener("click", () => {
@@ -98,7 +90,8 @@ export function renderPostsPageComponent({
                 action:
                     likeButtonElement.dataset.liked.toString() === "true"
                         ? unlikePost
-                        : likePost
+                        : likePost,
+                userId: postHeaderElement.dataset.userId,
             });
         });
     }
@@ -108,7 +101,8 @@ export function renderPostsPageComponent({
     for (const deleteButtonElement of deleteButtonElements) {
         deleteButtonElement.addEventListener("click", () => {
             onDeleteButtonClick({
-                id: deleteButtonElement.dataset.postId
+                id: deleteButtonElement.dataset.postId,
+                userId: postHeaderElement.dataset.userId,
             });
         });
     }

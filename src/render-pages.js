@@ -9,6 +9,7 @@ import {
     USER_POSTS_PAGE,
 } from "./routes.js";
 import { renderPostsPageComponent } from "./components/posts-page-component.js";
+import { renderUserPostsPageComponent } from "./components/user-posts-page-component.js";
 import { renderLoadingPageComponent } from "./components/loading-page-component.js";
 import {
     getUserFromLocalStorage,
@@ -139,8 +140,60 @@ const renderApp = () => {
         });
     }
 
-    if (page === POSTS_PAGE || page === USER_POSTS_PAGE) {
+    if (page === POSTS_PAGE) {
         return renderPostsPageComponent({
+            appEl,
+
+            onLikePostClick({ id, action }) {
+                action({
+                    token: getToken(),
+                    id,
+                })
+                    .then(() => {
+                        return getPosts({ token: getToken() });
+                    })
+                    .then((newPosts) => {
+                        posts = newPosts;
+                        renderApp();
+                    })
+                    .catch((error) => {
+                        alert(
+                            "Кажется, у вас сломался интернет, попробуйте позже",
+                        );
+                        console.error(error);
+                        renderApp();
+                    });
+            },
+
+            onDeleteButtonClick({ id }) {
+                deletePost({
+                    token: getToken(),
+                    id,
+                })
+                    .then(() => {
+                        return getPosts({ token: getToken() });
+                    })
+                    .then((newPosts) => {
+                        posts = newPosts;
+                        renderApp();
+                    })
+                    .catch((error) => {
+                        if (error.message === "Unauthorized") {
+                            alert("Вы не авторизованы");
+                        } else {
+                            alert(
+                                "Кажется, у вас сломался интернет, попробуйте позже",
+                            );
+                            console.error(error);
+                            renderApp();
+                        }
+                    });
+            },
+        });
+    }
+
+    if (page === USER_POSTS_PAGE) {
+        return renderUserPostsPageComponent({
             appEl,
 
             onLikePostClick({ id, action, userId }) {
@@ -149,14 +202,10 @@ const renderApp = () => {
                     id,
                 })
                     .then(() => {
-                        if (page === POSTS_PAGE) {
-                            return getPosts({ token: getToken() });
-                        } else {
-                            return getUserPosts({
-                                token: getToken(),
-                                id: userId,
-                            });
-                        }
+                        return getUserPosts({
+                            token: getToken(),
+                            id: userId,
+                        });
                     })
                     .then((newPosts) => {
                         posts = newPosts;
@@ -177,14 +226,10 @@ const renderApp = () => {
                     id,
                 })
                     .then(() => {
-                        if (page === POSTS_PAGE) {
-                            return getPosts({ token: getToken() });
-                        } else {
-                            return getUserPosts({
-                                token: getToken(),
-                                id: userId,
-                            });
-                        }
+                        return getUserPosts({
+                            token: getToken(),
+                            id: userId,
+                        });
                     })
                     .then((newPosts) => {
                         posts = newPosts;
