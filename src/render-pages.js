@@ -149,12 +149,6 @@ const renderApp = () => {
                     .then((newPosts) => {
                         posts = newPosts;
                         renderApp();
-                    })
-                    .catch((error) => {
-                        if (error.message === "Unauthorized") {
-                            alert("Вы не авторизованы");
-                            renderApp();
-                        }
                     });
             },
 

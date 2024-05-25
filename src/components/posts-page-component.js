@@ -39,7 +39,7 @@ export function renderPostsPageComponent({
                 <img id="like-image" src="${post.isLiked ? "./assets/images/like-active.svg" : "./assets/images/like-not-active.svg"}"}>
               </button>
               <p class="post-likes-text">
-                Нравится: <strong>${likes}</strong>
+                Нравится: ${likes}
               </p>
             </div>
             <img title="Удалить пост" data-post-id="${post.id}" class="${crossRemoval.toString() === "true" ? "cross-none" : "cross"}" src="./assets/images/cross_red.svg">
@@ -86,6 +86,12 @@ export function renderPostsPageComponent({
 
     for (let likeButtonElement of likeButtonElements) {
         likeButtonElement.addEventListener("click", () => {
+
+            if (!getUserFromLocalStorage()) {
+                alert("Вы не авторизованы");
+                return;
+            }
+
             likeButtonElement.classList.add("loading-like");
             onLikePostClick({
                 id: likeButtonElement.dataset.postId,
@@ -96,7 +102,6 @@ export function renderPostsPageComponent({
                 userId: postHeaderElement.dataset.userId,
             });
         });
-        
     }
 
     const deleteButtonElements = document.querySelectorAll(".cross");
