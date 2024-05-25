@@ -17,8 +17,10 @@ export function renderPostsPageComponent({
 }) {
     const postHtml = posts
         .map((post) => {
-            let nameString = post.likes[0]?.name ?? 0;
-            let likes = getLikeString(post.likes.length, nameString);
+            let likeUserName =
+                post.likes.length > 0 ? sanitize(post.likes[0].name) : "0";
+
+            let likeString = getLikeString(post.likes.length, likeUserName);
 
             let crossRemoval =
                 getUserFromLocalStorage() === null ||
@@ -39,7 +41,7 @@ export function renderPostsPageComponent({
                 <img id="like-image" src="${post.isLiked ? "./assets/images/like-active.svg" : "./assets/images/like-not-active.svg"}"}>
               </button>
               <p class="post-likes-text">
-                Нравится: ${likes}
+                Нравится: <strong>${likeString}</strong>
               </p>
             </div>
             <img title="Удалить пост" data-post-id="${post.id}" class="${crossRemoval.toString() === "true" ? "cross-none" : "cross"}" src="./assets/images/cross_red.svg">
@@ -86,7 +88,6 @@ export function renderPostsPageComponent({
 
     for (let likeButtonElement of likeButtonElements) {
         likeButtonElement.addEventListener("click", () => {
-
             if (!getUserFromLocalStorage()) {
                 alert("Вы не авторизованы");
                 return;

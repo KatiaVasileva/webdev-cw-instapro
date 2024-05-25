@@ -126,12 +126,15 @@ const renderApp = () => {
                 addPost({
                     description: description,
                     imageUrl,
-                }).then(() => {
-                    goToPage(POSTS_PAGE);
                 })
-                .catch(() => {
-                    alert("Кажется, у вас сломался интернет, попробуйте позже");
-                });
+                    .then(() => {
+                        goToPage(POSTS_PAGE);
+                    })
+                    .catch(() => {
+                        alert(
+                            "Кажется, у вас сломался интернет, попробуйте позже",
+                        );
+                    });
             },
         });
     }
